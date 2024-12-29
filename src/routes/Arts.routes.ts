@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { ExploreArts, GetArtId, DownloadArt, CheckOriginalArt, AddNewArt } from "../controller/Arts.controller";
-import { imageMiddleware } from "../middleware/image.middleware";
 import { upload } from "../middleware";
 
 export const ArtsRouter = Router();
@@ -13,4 +12,4 @@ ArtsRouter.post("/checkoriginal", upload.fields([
 ]), CheckOriginalArt);
 ArtsRouter.post("/add", upload.fields([
     { name: "image", maxCount: 1 }
-]), imageMiddleware, AddNewArt);
+]), AddNewArt);

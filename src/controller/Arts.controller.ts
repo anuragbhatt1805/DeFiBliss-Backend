@@ -132,15 +132,15 @@ export const CheckOriginalArt = AsyncHandler( async (req:GetOriginalArtIdRequest
         const { image } = req.files;
         const {metaData, success} = await decodeImage({image: image[0].path});
 
-        if (success && !metaData) {
-            throw new ApiError(400, "No metadata found");
+        if (success && metaData) {
+            throw new ApiError(400, "Metadata found");
         }
 
         return res.status(200).json(
             new ApiResponse(
                 200,
                 metaData,
-                "Metadata retrieved successfully"
+                "Image is Orignal"
             )
         );
 
@@ -164,7 +164,7 @@ export const AddNewArt = AsyncHandler( async (req:UploadArtRequest, res:Response
             throw new ApiError(404, "User not found");
         }
 
-        const categoryObj = await Category.findById(category);
+        const categoryObj = await Category.findOne({name: category});
         if (!categoryObj) {
             throw new ApiError(404, "Category not found");
         }
