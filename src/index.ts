@@ -19,6 +19,9 @@ app.use(
 );
 
 import { connectDB } from "./database";
+import { ArtsRouter } from "./routes/Arts.routes";
+import { UserRouter } from "./routes/User.routes";
+import { CategoryRouter } from "./routes/Category.routes";
 
 connectDB()
   .then(() => {
@@ -39,6 +42,6 @@ connectDB()
     console.log(`Couldn't connect to Database: ${err.message}`);
   });
 
-app.get("/", (req, res) => {
-    res.json({set: "Hello World"})
-})
+app.use("/arts", ArtsRouter);
+app.use("/users", UserRouter);
+app.use("/category", CategoryRouter);
