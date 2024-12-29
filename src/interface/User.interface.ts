@@ -10,7 +10,7 @@ export interface AddUserRequest extends Request {
 }
 
 export interface GetUserRequest extends Request {
-    params:{
+    body:{
         walletAddress: string;
     }
 }
