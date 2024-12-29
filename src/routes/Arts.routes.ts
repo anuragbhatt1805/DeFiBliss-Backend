@@ -6,7 +6,7 @@ export const ArtsRouter = Router();
 
 ArtsRouter.get("/explore", ExploreArts);
 ArtsRouter.get("/:id", GetArtId);
-ArtsRouter.get("/download/:id", DownloadArt);
+ArtsRouter.post("/download/:id", DownloadArt);
 ArtsRouter.post("/checkoriginal", upload.fields([
     { name: "image", maxCount: 1 }
 ]), CheckOriginalArt);

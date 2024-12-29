@@ -45,7 +45,7 @@ export interface UploadArtRequest extends Request {
         description: string;
         category: string;
         transactionId: string;
-        price: number;
+        price: string;
         verification_rate : number;
     }
 }

@@ -24,7 +24,8 @@ export const ExploreArts = AsyncHandler( async (req : ExploreArtsRequest, res : 
                 .sort({ createdAt: order === "LATEST" ? -1 : 1, downloads: order === "POPULAR" ? -1 : 1 })
                 .skip((parseInt(page) - 1) * parseInt(limit))
                 .limit(parseInt(limit))
-                .populate("category", "artist");
+                .populate("category")
+                .populate("artist");
             const total = await Art.countDocuments(query);
 
             return res.status(200).json(
@@ -37,7 +38,8 @@ export const ExploreArts = AsyncHandler( async (req : ExploreArtsRequest, res : 
         } else {
             const arts = await Art.find(query)
                 .sort({ createdAt: order === "LATEST" ? -1 : 1 })
-                .populate("category", "artist");
+                .populate("category")
+                .populate("artist");
 
             return res.status(200).json(
                 new ApiResponse(
@@ -90,8 +92,8 @@ export const DownloadArt = AsyncHandler( async (req:DownloadArtRequest, res:Resp
         if (!art) {
             throw new ApiError(404, "Art not found");
         }
-
-        const user = await User.findOne({ walletAddress, signature });
+        console.log(walletAddress)
+        const user = await User.findOne({ walletAddress });
 
         if (!user) {
             throw new ApiError(404, "User not found");
@@ -185,8 +187,8 @@ export const AddNewArt = AsyncHandler( async (req:UploadArtRequest, res:Response
             category: categoryObj._id,
             artist: user._id,
             file: image[0].path,
-            verification_rate,
-            price,
+            verification_rate : verification_rate,
+            price:parseFloat(price),
         });
 
         return res.status(201).json(
