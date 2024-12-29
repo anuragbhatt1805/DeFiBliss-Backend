@@ -24,7 +24,7 @@ export interface DownloadArtRequest extends Request {
     }
     body: {
         walletAddress: string;
-        signature: string;
+        signature?: string;
     }
 }
 
