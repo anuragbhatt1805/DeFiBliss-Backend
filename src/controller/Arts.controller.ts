@@ -2,6 +2,7 @@ import { ApiError, ApiResponse, AsyncHandler, decodeImage, encodeImage } from ".
 import { User, Art, Category } from "../model";
 import { ExploreArtsRequest, GetArtIdRequest, DownloadArtRequest, GetOriginalArtIdRequest, UploadArtRequest } from "../interface/Arts.interface";
 import { Response } from "express";
+import fs from "fs";
 
 export const ExploreArts = AsyncHandler( async (req : ExploreArtsRequest, res : Response) => {
     try {
@@ -132,7 +133,12 @@ export const DownloadArt = AsyncHandler( async (req:DownloadArtRequest, res:Resp
 export const CheckOriginalArt = AsyncHandler( async (req:GetOriginalArtIdRequest, res:Response) => {
     try {
         const { image } = req.files;
+        console.log(image[0].path);
         const {metaData, success} = await decodeImage({image: image[0].path});
+
+        if (success) {
+            fs.unlinkSync(image[0].path);
+        }
 
         if (success && metaData) {
             throw new ApiError(400, "Metadata found");
