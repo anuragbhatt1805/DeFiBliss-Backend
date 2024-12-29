@@ -155,10 +155,11 @@ export const CheckOriginalArt = AsyncHandler( async (req:GetOriginalArtIdRequest
 
 export const AddNewArt = AsyncHandler( async (req:UploadArtRequest, res:Response) => {
     try {
-        const { walletAddress, signature, title, description, category, transactionId, verification_rate, price } = req.body;
+        const { walletAddress, title, description, category, transactionId, verification_rate, price } = req.body;
         const { image } = req.files;
 
-        const user = await User.findOne({ walletAddress, signature });
+        console.log(walletAddress);
+        const user = await User.findOne({walletAddress });
 
         if (!user) {
             throw new ApiError(404, "User not found");

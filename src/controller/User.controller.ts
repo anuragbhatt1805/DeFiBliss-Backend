@@ -19,7 +19,9 @@ export const AddUser = AsyncHandler(
         $or: [{ walletAddress }, { signature }],
       });
       if (existingUser) {
-        throw new ApiError(409, "User already exists");
+        return res
+        .status(201)
+        .json(new ApiResponse(201, { ...existingUser }, "User Accepted successfully"));
       }
 
       const user = await User.create({
@@ -76,12 +78,12 @@ export const UpdateUser = AsyncHandler(
         throw new ApiError(404, "User not found");
       }
 
-      if (
-        user.signature !== signature &&
-        user.walletAddress !== walletAddress
-      ) {
-        throw new ApiError(401, "Unauthorized");
-      }
+      // if (
+      //   user.signature !== signature &&
+      //   user.walletAddress !== walletAddress
+      // ) {
+      //   throw new ApiError(401, "Unauthorized");
+      // }
 
       if (name) user.name = name;
       if (bio) user.bio = bio;
